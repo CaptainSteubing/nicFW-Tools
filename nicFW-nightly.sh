@@ -32,7 +32,7 @@ NICFWVERSION=$(xxd -p -s "$OFFSET" -l 20 "$FILENAME" | xxd -r -p | tr '\0' '\n' 
 # Clean up the version string and create the filename 
 NICFWVERSION=$(echo "$NICFWVERSION" | sed -E -e 's/ +//g' | sed -E -e 's/\./-/' )
 NEWFILENAME=$(echo "$FILENAME" | sed -E -e 's/$DATETIME//' )
-NEWFILENAME=nicFW_Nightly-$NICFWVERSION.bin
+NEWFILENAME=nicFW_Nightly_$NICFWVERSION.bin
 echo "Renaming $FILENAME to $NEWFILENAME"
 mv "$FILENAME" "$NEWFILENAME"
 
