@@ -1,5 +1,7 @@
 #/bin/sh
 #
+# Copyright 2024 ZF1KY <ZF1KY@splash.ky>
+#
 # Download the latest nicFW for the TIDRADIO H3. 
 # Get the MD5 checksum on the downloaded file and any other file matching nicFW*.bin
 # Manually view/check the MD5 checksum of the files to see if the checksum has changed.
@@ -12,7 +14,7 @@ DATETIME=$(date '+%d-%b-%Y-%I-%M-%p')
 FILENAME=nicFW-Nightly-$DATETIME.bin
 
 # Get the latest, with a bit of magic to make sure it's not a cached version.
-curl --insecure -o $FILENAME https://nicsure.co.uk/h3/firmware.bin?_=$(date +%s)
+curl --no-progress-meter --insecure -o $FILENAME https://nicsure.co.uk/h3/firmware.bin?_=$(date +%s)
 
 # Do magic to get the nicFW version from the downloaded file
 # Thanks Kelvin Hill!
@@ -33,7 +35,7 @@ NICFWVERSION=$(xxd -p -s "$OFFSET" -l 20 "$FILENAME" | xxd -r -p | tr '\0' '\n' 
 NICFWVERSION=$(echo "$NICFWVERSION" | sed -E -e 's/ +//g' | sed -E -e 's/\./-/' )
 NEWFILENAME=$(echo "$FILENAME" | sed -E -e 's/$DATETIME//' )
 NEWFILENAME=nicFW_Nightly_$NICFWVERSION.bin
-echo "Renaming $FILENAME to $NEWFILENAME"
+echo "Rename: $FILENAME to $NEWFILENAME"
 mv "$FILENAME" "$NEWFILENAME"
 
 # Grab the list of files in the directory matching "nicFW*.bin" and create an array with them.
