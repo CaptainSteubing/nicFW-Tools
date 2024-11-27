@@ -24,7 +24,7 @@ if [ -z "$OFFSET" ]; then
   echo "Error: 'nicFW' version string not found in $FILENAME"	
   exit 1
 else
-  OFFSET=$(( $OFFSET + 5 ))
+  OFFSET=$(( $OFFSET + 7 ))
   echo "OK: nicFW version string in $FILENAME $OFFSET" 
 fi
 
@@ -33,7 +33,7 @@ NICFWVERSION=$(xxd -p -s "$OFFSET" -l 20 "$FILENAME" | xxd -r -p | tr '\0' '\n' 
 # Clean up the version string and create the filename 
 NICFWVERSION=$(echo "$NICFWVERSION" | sed -E -e 's/ +//g' | sed -E -e 's/\./-/' )
 NEWFILENAME=$(echo "$FILENAME" | sed -E -e 's/$DATETIME//' )
-NEWFILENAME=nicFW_Nightly_$NICFWVERSION.bin
+NEWFILENAME=nicFW_Nightly_v$NICFWVERSION.bin
 echo "Rename: $FILENAME to "
 echo "$(dirname "$(readlink -f "$0")")/$NEWFILENAME"
 mv "$FILENAME" "$NEWFILENAME"
